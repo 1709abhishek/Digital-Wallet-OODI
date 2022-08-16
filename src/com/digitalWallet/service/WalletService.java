@@ -3,6 +3,9 @@ package com.digitalWallet.service;
 import com.digitalWallet.dao.WalletDao;
 import com.digitalWallet.entity.Account;
 import com.digitalWallet.entity.Transaction;
+import com.digitalWallet.offers.Context;
+import com.digitalWallet.offers.EqualsOffer;
+import com.digitalWallet.offers.Strategy;
 import jdk.internal.platform.cgroupv1.SubSystem;
 
 import java.math.BigDecimal;
@@ -36,6 +39,8 @@ public class WalletService {
         toAcc.setBalance(toAcc.getBalance().add(amount));
         fromAcc.getTransactions().add(transaction);
         toAcc.getTransactions().add(transaction);
+//        dao.getTransactionMap().get(from).add(transaction);
+//        dao.getTransactionMap().get(to).add(transaction);
         System.out.println("Transfer Successful");
     }
 
@@ -78,5 +83,17 @@ public class WalletService {
             System.out.print("Balance for acc number" + accNum + ":");
             System.out.println(dao.getAccountMap().get(accNum).getBalance());
         }
+    }
+
+    public void offers(int from, int to){
+        Account fromAcc = dao.getAccountMap().get(from);
+        Account toAcc = dao.getAccountMap().get(to);
+        if(fromAcc.getBalance().compareTo(toAcc.getBalance())!=0){
+            System.out.println("balance not equal");
+            return;
+        }
+        int offer=1;
+        Strategy offerFinal = new Context(offer, dao).getOfferStrategy();
+        offerFinal.executeOffer(from,to);
     }
 }

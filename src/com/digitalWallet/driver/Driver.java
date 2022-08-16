@@ -35,6 +35,7 @@ public class Driver {
                     System.out.println("Enter amount");
                     BigDecimal amount1 = sc.nextBigDecimal();
                     wService.transfer(from, to, amount1);
+                    wService.offers(from, to);
                     break;
 
                 case 3:
@@ -47,6 +48,7 @@ public class Driver {
                     System.out.println("YOU SELECTED OVERVIEW");
                     wService.overview();
                     break;
+
 
                 case 5:
                     System.out.println("APPLICATION STOPPED");
